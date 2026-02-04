@@ -99,7 +99,7 @@ pipeline {
                 script {
                     echo 'Verifying application metrics endpoint...'
 
-                    sh "curl -f http://localhost:5000/metrics"
+                    sh "curl -f http://localhost:5001/metrics"
                 }
             }
         }

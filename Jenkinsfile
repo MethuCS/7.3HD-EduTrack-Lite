@@ -8,8 +8,9 @@ pipeline {
 
     stages {
         stage('Checkout') {
-            steps {
-                checkout scm
+             steps {
+                git branch: 'main',
+                    url: 'https://github.com/MethuCS/7.3HD-EduTrack-Lite.git'
             }
         }
 

@@ -21,15 +21,31 @@ app.get('/metrics', async (req, res) => {
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+app.use('/uploads', express.static('uploads')); // Serve uploaded files
+
+// PDF/Image Upload Configuration
+const multer = require('multer');
+const path = require('path');
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, 'uploads/');
+    },
+    filename: (req, file, cb) => {
+        cb(null, Date.now() + path.extname(file.originalname));
+    }
+});
+const upload = multer({ storage: storage });
 
 // Routes
 const authRoutes = require('./routes/auth');
 const assignmentRoutes = require('./routes/assignments');
+const submissionRoutes = require('./routes/submissions');
 const feedbackRoutes = require('./routes/feedback');
 const analyticsRoutes = require('./routes/analytics');
 
 app.use('/api/auth', authRoutes);
 app.use('/api/assignments', assignmentRoutes);
+app.use('/api/submissions', submissionRoutes);
 app.use('/api/feedback', feedbackRoutes);
 app.use('/api/analytics', analyticsRoutes);
 

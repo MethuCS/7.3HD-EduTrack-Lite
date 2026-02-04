@@ -4,8 +4,12 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DashboardPage from './pages/DashboardPage';
 
+import SubmissionsPage from './pages/SubmissionsPage';
+import './Modal.css';
+
 const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+  if (loading) return <div>Loading...</div>;
   if (!user) return <Navigate to="/login" />;
   return children;
 };
@@ -20,6 +24,11 @@ function App() {
           <Route path="/" element={
             <ProtectedRoute>
               <DashboardPage />
+            </ProtectedRoute>
+          } />
+          <Route path="/submissions/:id" element={
+            <ProtectedRoute>
+              <SubmissionsPage />
             </ProtectedRoute>
           } />
         </Routes>

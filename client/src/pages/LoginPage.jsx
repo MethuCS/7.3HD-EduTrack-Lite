@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 const LoginPage = () => {
     const [email, setEmail] = useState('');
@@ -12,7 +12,7 @@ const LoginPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+            const res = await axios.post('http://localhost:5001/api/auth/login', { email, password });
             login(res.data.token, res.data.user);
             navigate('/');
         } catch (err) {
@@ -38,7 +38,10 @@ const LoginPage = () => {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button className="bg-blue-500 text-white p-2 w-full rounded">Login</button>
+                <button className="bg-blue-500 text-white p-2 w-full rounded mb-4">Login</button>
+                <p className="text-center text-sm">
+                    Don't have an account? <Link to="/register" className="text-blue-500 underline">Register here</Link>
+                </p>
             </form>
         </div>
     );

@@ -12,10 +12,11 @@ const RegisterPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:5000/api/auth/register', { username, email, password, role });
+            await axios.post('http://localhost:5001/api/auth/register', { username, email, password, role });
             navigate('/login');
         } catch (err) {
-            alert('Registration failed');
+            console.error(err);
+            alert(`Error: ${err.response?.data?.message || err.message}`);
         }
     };
 

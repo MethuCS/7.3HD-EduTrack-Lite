@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS submissions (
     student_id INT NOT NULL,
     file_path VARCHAR(255),
     content TEXT,
+    status ENUM('submitted', 'marked', 'resubmit') DEFAULT 'submitted',
     submission_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (assignment_id) REFERENCES assignments(id) ON DELETE CASCADE,
     FOREIGN KEY (student_id) REFERENCES users(id) ON DELETE CASCADE

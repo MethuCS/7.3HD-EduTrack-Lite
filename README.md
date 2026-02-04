@@ -30,8 +30,8 @@ EduTrack Lite is a web application for assignment submission and analytics, desi
 
 3. **Access the Application**
    - Frontend: [http://localhost](http://localhost) (via Nginx proxy)
-   - Backend API: [http://localhost:5000](http://localhost:5000)
-   - Database Adminer: [http://localhost:8080](http://localhost:8080) (System: MySQL, Server: mysql, Username: user, Password: password, Database: edutrack_db)
+   - Backend API: [http://localhost:5001](http://localhost:5001)
+   - Database Adminer: [http://localhost:8081](http://localhost:8081) (System: MySQL, Server: mysql, Username: user, Password: password, Database: edutrack_db)
    - SonarQube: [http://localhost:9000](http://localhost:9000)
 
 ## Project Structure

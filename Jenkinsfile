@@ -98,7 +98,7 @@ pipeline {
                 script {
                     echo 'Verifying Application Health...'
                     // Check if Metrics endpoint is up
-                    sh 'curl -f http://localhost:5000/metrics'
+                    sh 'curl -f http://localhost:5001/metrics'
                     echo 'Metrics endpoint is accessible.'
                 }
             }

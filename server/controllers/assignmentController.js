@@ -22,7 +22,15 @@ exports.createAssignment = async (req, res) => {
 
 exports.getAssignments = async (req, res) => {
     try {
-        const [rows] = await db.query('SELECT * FROM assignments ORDER BY created_at DESC');
+        const userId = req.user.id;
+        console.log(`Fetching assignments for user: ${userId}`);
+        const [rows] = await db.query(`
+            SELECT a.*, s.status, s.file_path 
+            FROM assignments a 
+            LEFT JOIN submissions s ON a.id = s.assignment_id AND s.student_id = ?
+            ORDER BY a.created_at DESC
+        `, [userId]);
+        console.log('Assignments found:', rows);
         res.json(rows);
     } catch (err) {
         console.error(err);

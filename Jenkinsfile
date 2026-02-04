@@ -4,6 +4,8 @@ pipeline {
     environment {
         SERVER_IMAGE = "edutrack-server"
         CLIENT_IMAGE = "edutrack-client"
+        // Ensure Jenkins can find docker command
+        PATH = "/usr/local/bin:$PATH"
     }
 
     stages {

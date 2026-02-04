@@ -41,7 +41,7 @@ pipeline {
             steps {
                 script {
                     echo 'Running SonarQube Analysis...'
-                    // REQUIRES: 'SonarQube' server to be configured in Jenkins settings
+                    
                     withSonarQubeEnv('SonarQube') {
                         // Using a dockerized scanner to avoid installing it on the agent
                         sh "docker run --rm \
@@ -60,10 +60,7 @@ pipeline {
         stage('Security') {
             steps {
                 script {
-                    echo 'Running Security Scan...'
-                    // npm audit returns non-zero exit code if vulnerabilities are found
-                    // We allow it to fail the build (remove || true to accept failure)
-                    // Currently set to || true to prevent blocking the demo, but prints output
+                    echo 'Running Security Scan...'  
                     sh "docker run --rm --entrypoint npm $DOCKER_IMAGE_SERVER:${BUILD_NUMBER} audit --audit-level=high || true"
                 }
             }
@@ -89,8 +86,8 @@ pipeline {
                         sh "git config user.email 'jenkins@edutrack.com'"
                         sh "git config user.name 'Jenkins CI'"
                         sh "git tag -a v1.0.${BUILD_NUMBER} -m 'Jenkins Release v1.0.${BUILD_NUMBER}'"
-                        // Uncomment to push tag if remote is set up
-                        // sh "git push https://${GIT_USER}:${GIT_PASS}@github.com/StartYourDayRight/EduTrack.git v1.0.${BUILD_NUMBER}"
+                       
+                      
                     }
                 }
             }

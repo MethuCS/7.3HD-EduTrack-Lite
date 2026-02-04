@@ -18,6 +18,7 @@ services:
 
   adminer:
     image: adminer
+    container_name: edutrack_adminer
     restart: always
     ports:
       - "8081:8080"

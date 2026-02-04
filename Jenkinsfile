@@ -79,7 +79,7 @@ pipeline {
                     // Stop and remove any existing containers with the same names (from manual runs)
                     // "|| true" ensures the pipeline doesn't fail if containers don't exist
                     sh """
-                    docker rm -f edutrack_server edutrack_client edutrack_mysql edutrack_sonarqube edutrack_prometheus edutrack_grafana || true
+                    docker rm -f edutrack_server edutrack_client edutrack_mysql edutrack_sonarqube edutrack_prometheus edutrack_grafana edutrack_adminer hd_project-adminer-1 || true
                     """
 
                     sh "docker-compose up -d --build"

@@ -5,6 +5,7 @@ pipeline {
         SERVER_IMAGE = "edutrack-server"
         CLIENT_IMAGE = "edutrack-client"
         PATH = "/usr/local/bin:$PATH"
+        COMPOSE_PROJECT_NAME = "edutrack"
     }
 
     stages {

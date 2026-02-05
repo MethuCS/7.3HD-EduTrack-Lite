@@ -84,10 +84,14 @@ services:
 
 volumes:
   mysql_data:
+    external: true
     name: edutrack_mysql_data
   sonarqube_data:
+    external: true
     name: edutrack_sonarqube_data
   sonarqube_extensions:
+    external: true
     name: edutrack_sonarqube_extensions
   sonarqube_logs:
+    external: true
     name: edutrack_sonarqube_logs

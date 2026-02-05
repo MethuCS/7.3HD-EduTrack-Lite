@@ -21,6 +21,13 @@ app.get('/metrics', async (req, res) => {
 // Middleware
 app.use(cors());
 app.use(bodyParser.json());
+
+// Ensure uploads directory exists
+const fs = require('fs');
+if (!fs.existsSync('uploads')) {
+    fs.mkdirSync('uploads');
+}
+
 app.use('/uploads', express.static('uploads')); // Serve uploaded files
 
 // PDF/Image Upload Configuration

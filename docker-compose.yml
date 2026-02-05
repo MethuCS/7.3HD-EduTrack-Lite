@@ -36,6 +36,8 @@ services:
       - DB_PASSWORD=password
       - DB_NAME=edutrack_db
       - JWT_SECRET=secretkey
+    volumes:
+      - ./server/uploads:/app/uploads
     depends_on:
       - mysql
 
@@ -55,6 +57,10 @@ services:
       - "9000:9000"
     environment:
       - SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true
+    volumes:
+      - sonarqube_data:/opt/sonarqube/data
+      - sonarqube_extensions:/opt/sonarqube/extensions
+      - sonarqube_logs:/opt/sonarqube/logs
 
   prometheus:
     image: prom/prometheus
@@ -78,3 +84,6 @@ services:
 
 volumes:
   mysql_data:
+  sonarqube_data:
+  sonarqube_extensions:
+  sonarqube_logs:

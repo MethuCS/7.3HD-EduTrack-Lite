@@ -4,7 +4,6 @@ pipeline {
     environment {
         SERVER_IMAGE = "edutrack-server"
         CLIENT_IMAGE = "edutrack-client"
-        // Ensure Jenkins can find docker command
         PATH = "/usr/local/bin:$PATH"
     }
 
@@ -34,7 +33,7 @@ pipeline {
                 script {
                     echo 'Running automated unit tests inside container...'
 
-                    // Tests run in isolated container; failures reported in logs
+                    // Tests run in isolated container
                     sh "docker run --rm ${SERVER_IMAGE}:${BUILD_NUMBER} npm test || true"
                 }
             }
@@ -45,14 +44,16 @@ pipeline {
                 script {
                     echo 'Running SonarQube code quality analysis...'
 
+                    // SonarQube server + token injected automatically by Jenkins
                     withSonarQubeEnv('SonarQube') {
                         sh """
                         docker run --rm \
-                          -e SONAR_HOST_URL=http://host.docker.internal:9000 \
-                          -e SONAR_TOKEN=${SONAR_AUTH_TOKEN} \
+                          -e SONAR_HOST_URL=${SONAR_HOST_URL} \
+                          -e SONAR_LOGIN=${SONAR_AUTH_TOKEN} \
                           -v ${WORKSPACE}/server:/usr/src \
                           sonarsource/sonar-scanner-cli \
                           -Dsonar.projectKey=edutrack-lite \
+                          -Dsonar.projectName=EduTrack-Lite \
                           -Dsonar.sources=.
                         """
                     }
@@ -65,7 +66,7 @@ pipeline {
                 script {
                     echo 'Running dependency vulnerability scan (npm audit)...'
 
-                    // Vulnerabilities are reported but do not block deployment
+                    // Vulnerabilities reported but do not block deployment
                     sh "docker run --rm ${SERVER_IMAGE}:${BUILD_NUMBER} npm audit || true"
                 }
             }
@@ -74,12 +75,13 @@ pipeline {
         stage('Deploy') {
             steps {
                 script {
-                    echo 'Deploying application to test environment using Docker Compose...'
+                    echo 'Deploying application using Docker Compose...'
 
-                    // Stop and remove any existing containers with the same names (from manual runs)
-                    // "|| true" ensures the pipeline doesn't fail if containers don't exist
+                    // Clean up old containers safely
                     sh """
-                    docker rm -f edutrack_server edutrack_client edutrack_mysql edutrack_sonarqube edutrack_prometheus edutrack_grafana edutrack_adminer hd_project-adminer-1 || true
+                    docker rm -f edutrack_server edutrack_client edutrack_mysql \
+                    edutrack_sonarqube edutrack_prometheus edutrack_grafana \
+                    edutrack_adminer hd_project-adminer-1 || true
                     """
 
                     sh "docker-compose up -d --build"
@@ -91,7 +93,7 @@ pipeline {
         stage('Release') {
             steps {
                 script {
-                    echo "Tagging release version v1.0.${BUILD_NUMBER}"
+                    echo "Tagging release v1.0.${BUILD_NUMBER}"
 
                     sh """
                     git config user.name 'Jenkins CI'

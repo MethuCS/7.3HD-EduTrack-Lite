@@ -84,6 +84,10 @@ services:
 
 volumes:
   mysql_data:
+    name: edutrack_mysql_data
   sonarqube_data:
+    name: edutrack_sonarqube_data
   sonarqube_extensions:
+    name: edutrack_sonarqube_extensions
   sonarqube_logs:
+    name: edutrack_sonarqube_logs

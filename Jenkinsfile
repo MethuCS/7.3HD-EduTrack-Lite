@@ -48,8 +48,9 @@ pipeline {
                     withSonarQubeEnv('SonarQube') {
                         sh """
                         docker run --rm \
+                          --platform linux/arm64 \
                           -e SONAR_HOST_URL=${SONAR_HOST_URL} \
-                          -e SONAR_LOGIN=${SONAR_AUTH_TOKEN} \
+                          -e SONAR_TOKEN=${SONAR_AUTH_TOKEN} \
                           -v ${WORKSPACE}/server:/usr/src \
                           sonarsource/sonar-scanner-cli \
                           -Dsonar.projectKey=edutrack-lite \

@@ -80,9 +80,7 @@ pipeline {
 
                     // Clean up old containers safely
                     sh """
-                    docker rm -f edutrack_server edutrack_client edutrack_mysql \
-                    edutrack_sonarqube edutrack_prometheus edutrack_grafana \
-                    edutrack_adminer hd_project-adminer-1 || true
+                    docker rm -f edutrack_server edutrack_client edutrack_prometheus edutrack_grafana edutrack_adminer hd_project-adminer-1 || true
                     """
 
                     sh "docker-compose up -d --build"
